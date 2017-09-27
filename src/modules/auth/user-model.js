@@ -1,15 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
-<<<<<<< HEAD
-
-const UserSchema = new Schema({
-  email: String,
-  password: String,
-  username: String,
-});
-
-=======
 import uniqueValidator from 'mongoose-unique-validator';
 import { hashSync, compareSync } from 'bcrypt-nodejs';
+import jwt from 'jsonwebtoken';
+
+import constants from '../../config/constants';
 
 const UserSchema = new Schema({
   email: {
@@ -59,7 +53,25 @@ UserSchema.methods = {
   authenticateUser(password) {
     return compareSync(password, this.password);
   },
+  createToken() {
+    return jwt.sign({ _id: this._id }, constants.JWT_SECRET);
+  },
+
+  toAuthJSON() {
+    return {
+      token: this.createToken(),
+      ...this.toJSON(),
+    };
+  },
+
+  // override the toJSON method for make sure we don't send password
+  toJSON() {
+    return {
+      _id: this._id,
+      username: this.username,
+      email: this.email,
+    };
+  },
 };
 
->>>>>>> feature/auth
 export default mongoose.model('users', UserSchema);

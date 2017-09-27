@@ -1,16 +1,5 @@
 import AuthService from './user-service';
 
-<<<<<<< HEAD
-export const signUp = async (req, res) => {
-  try {
-    const user = await AuthService.register(req.body);
-
-    return req.status(200).json(user);
-  } catch (error) {
-    return res.status(400).json({ error: String(error) });
-  }
-};
-=======
 const parse = (error) => {
   const myErrors = error;
   Object.keys(error.errors).map((e) => (myErrors.errors[e] = { message: error.errors[e].message }));
@@ -27,8 +16,7 @@ export const signUp = async (req, res) => {
 };
 
 export const login = (req, res, next) => {
-  res.status(200).json(req.user);
+  res.status(200).json(req.user.toAuthJSON());
 
   return next();
 };
->>>>>>> feature/auth

@@ -1,8 +1,5 @@
 import UserModel from './user-model';
-<<<<<<< HEAD
-=======
-import { authLocal } from './passport';
->>>>>>> feature/auth
+import { authLocal, authJwt } from './passport';
 
 class AuthService {
   register({ email, password, username }) {
@@ -20,13 +17,14 @@ class AuthService {
       throw error;
     }
   }
-<<<<<<< HEAD
-=======
   
   loginMiddleware(req, res, next) {
     return authLocal(req, res, next);
   }
->>>>>>> feature/auth
+
+  jwtMiddleware(req, res, next) {
+    return authJwt(req, res, next);
+  }
 }
 
 export default new AuthService();
